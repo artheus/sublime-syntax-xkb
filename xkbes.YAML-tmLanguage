@@ -1,0 +1,60 @@
+# [PackageDev] target_format: plist, ext: tmLanguage
+name: X11 Keyboard Extension Syntax
+scopeName: source.xkbes
+fileTypes: [xkb]
+uuid: 7a834e5a-0984-4d13-bc06-13eaaa3515f8
+
+patterns:
+# Comments
+- name: comment.line.xkbes
+  match: '\/\/.*'
+
+# Basic operators
+- name: keyword.operator.xkbes
+  match: \=
+
+# regular strings
+- name: constant.character.xbes
+  match: \".+\"
+
+# Global keywords
+- name: keyword.other.xkbes
+  match: default|partial|alphanumeric_keys|modifier_keys|include
+
+# xkb_symbols definition
+- begin: (xkb_symbols)
+  beginCaptures:
+    '1': {name: keyword.xkbes}
+  end: \{
+  patterns:
+  - name: variable.parameter.xkbes
+    match: \"[a-zA-Z]+\"
+
+# name group definition
+- begin: (name)
+  beginCaptures:
+    '1': {name: keyword.xkbes}
+  end: (\=)
+  endCaptures:
+    '1': {name: keyword.operator.xkbes}
+  patterns:
+  - name: storage.type.xkbes
+    match: \[Group[\d+]\]
+
+# key definition
+- begin: (key)
+  beginCaptures:
+    '1': {name: keyword.xkbes}
+  end: \;
+  patterns:
+  - match: (\<)([A-Z0-9]+)(\>)
+    captures:
+      '1': {name: keyword.operator.xkbes}
+      '2': {name: storage.type.xkbes}
+      '3': {name: keyword.operator.xkbes}
+
+  - begin: \{
+    end: \}
+    match: ([a-zA-Z0-9]+),?
+    captures:
+      '1': {name: variable.parameter}
