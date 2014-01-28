@@ -6,19 +6,19 @@ uuid: 7a834e5a-0984-4d13-bc06-13eaaa3515f8
 
 patterns:
 # Comments
-- name: comment.line.xkbes
+- name: comment.line
   match: '\/\/.*'
 
 # Basic operators
-- name: keyword.operator.xkbes
+- name: keyword.operator
   match: \=
 
 # regular strings
-- name: constant.character.xbes
+- name: constant.character.strings
   match: \".+\"
 
 # Global keywords
-- name: keyword.other.xkbes
+- name: keyword.other.variant-option
   match: default|partial|alphanumeric_keys|modifier_keys|include
 
 # xkb_symbols definition
@@ -27,31 +27,31 @@ patterns:
     '1': {name: keyword.xkbes}
   end: \{
   patterns:
-  - name: variable.parameter.xkbes
-    match: \"[a-zA-Z]+\"
+  - name: variable.parameter.map-name
+    match: (\"|\')[a-zA-Z]+(\"|\')
 
 # name group definition
 - begin: (name)
   beginCaptures:
-    '1': {name: keyword.xkbes}
+    '1': {name: keyword}
   end: (\=)
   endCaptures:
-    '1': {name: keyword.operator.xkbes}
+    '1': {name: keyword.operator}
   patterns:
-  - name: storage.type.xkbes
+  - name: storage.type.keyboard-group
     match: \[Group[\d+]\]
 
 # key definition
 - begin: (key)
   beginCaptures:
-    '1': {name: keyword.xkbes}
+    '1': {name: keyword}
   end: \;
   patterns:
   - match: (\<)([A-Z0-9]+)(\>)
     captures:
-      '1': {name: keyword.operator.xkbes}
-      '2': {name: storage.type.xkbes}
-      '3': {name: keyword.operator.xkbes}
+      '1': {name: keyword.operator}
+      '2': {name: storage.type.key-name}
+      '3': {name: keyword.operator}
 
   - begin: \{
     end: \}
